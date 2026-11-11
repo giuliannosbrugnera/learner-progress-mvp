@@ -112,4 +112,10 @@ describe('GET /api/learners/:learnerId/progress', () => {
     expect(res.body.courses).toHaveLength(1);
     expect(res.body.courses[0].courseId).toBe('course-safety');
   });
+
+  it('returns 200 with an empty list for a learner with nothing in progress', async () => {
+    const res = await request(app).get('/api/learners/3/progress');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ learnerId: 3, courses: [] });
+  });
 });

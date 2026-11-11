@@ -92,6 +92,18 @@ export const enrollments: CourseEnrollment[] = [
     lastActivityAt: daysAgo(106),
     status: 'completed',
   },
+  {
+    // Learner 3 has nothing in progress, so the UI empty state can be demoed.
+    courseId: 'course-ethics',
+    title: 'Business Ethics',
+    learnerId: 3,
+    lessons: [
+      { id: 'l1', title: 'Code of conduct', completed: true },
+      { id: 'l2', title: 'Reporting concerns', completed: true },
+    ],
+    lastActivityAt: daysAgo(40),
+    status: 'completed',
+  },
 ];
 
 export const knownLearnerIds = new Set(
