@@ -66,8 +66,8 @@ Persistence is your choice (the starter uses in-memory seed data). Document any 
 
 Start from **one** primary starter:
 
-- [`frontend-angular/`](./frontend-angular/README.md) — Docebo's production UI stack
-- [`frontend-react/`](./frontend-react/README.md) — Toronto market default
+- [`frontend/`](./frontend/README.md) — Angular, Docebo's production UI stack (the option used in this submission, formerly `frontend-angular/`)
+- `frontend-react/` — React, Toronto market default (not included in this submission)
 
 Pick the one you will ship fastest. Same requirements, same scoring. Do not submit both.
 
