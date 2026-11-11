@@ -26,6 +26,7 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
+            "buildTarget": "learner-progress:build",
             "proxyConfig": "proxy.conf.json",
             "port": 5173
           }
