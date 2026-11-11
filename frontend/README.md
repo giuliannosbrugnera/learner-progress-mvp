@@ -2,9 +2,7 @@
 
 Angular 19 standalone app. Already calls `GET /api/learners/:id/progress` through the `ng serve` proxy.
 
-This is one of **two primary starters**. Pick **Angular** (this folder) or **React** (`../frontend-react/`) — whichever you ship fastest. We score loading/error/empty states and product craft, not which of those two you picked.
-
-Your job is **not** a new app from scratch. Extend this page: loading, error, and empty states, plus whatever you need to demo your extra business rule and analytics event.
+The page shows loading, error and empty states, the estimated-time-remaining rule, and logs analytics events to the console. See the root README for what to try.
 
 **Requires Node.js 20+.**
 
@@ -18,14 +16,6 @@ npm run dev
 ```
 
 Open http://localhost:5173.
-
-## What you will notice
-
-The starter is intentionally thin:
-
-- Happy path only — no loading, error, or empty treatment worth shipping
-- No analytics
-- It will show whatever the API returns, including incomplete backend data until tests pass
 
 ## Proxy
 

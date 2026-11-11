@@ -1,13 +1,13 @@
 # Backend — TypeScript starter
 
-Express + TypeScript API scaffold for the Learner Progress take-home. **Implement the business logic** in `src/services/progressService.ts` until tests pass, then extend **one** sibling starter: [`frontend-angular/`](../frontend-angular/README.md) or [`frontend-react/`](../frontend-react/README.md).
+Express + TypeScript API scaffold for the Learner Progress take-home. **Implement the business logic** in `src/services/progressService.ts` until tests pass, consumed by the Angular app in [`frontend/`](../frontend/README.md).
 
 ## Quick start
 
 ```bash
 cd backend
 npm install
-npm test          # several tests fail until you implement progressService
+npm test
 npm run dev       # http://localhost:3001
 ```
 
@@ -33,7 +33,8 @@ Returns in-progress courses for a learner.
       "completionPercentage": 33,
       "lastActivityAt": "2026-08-22T09:15:00.000Z",
       "status": "in_progress",
-      "isStale": false
+      "isStale": false,
+      "estimatedMinutesRemaining": 35
     }
   ]
 }
@@ -46,19 +47,13 @@ Returns in-progress courses for a learner.
 | 400 | Invalid learner ID (non-integer or ≤ 0) |
 | 404 | Unknown learner (not in seed data) |
 
-## Your task
+## Where things live
 
-Edit **`src/services/progressService.ts`** — the starter intentionally returns incomplete results (includes completed/not-started courses, missing stale flags, wrong sort).
+- `src/services/progressService.ts` — business logic: in-progress filter, completion %, stale flag, sort, and the extra rule `estimateMinutesRemaining`.
+- `src/routes/progressRoutes.ts` — HTTP layer and learner-ID validation.
+- `tests/` — API contract tests and unit tests for the extra rule. Run `npm test`.
 
-Tests in `tests/progress.api.test.ts` define the contract. Run `npm test` until green.
-
-You may also:
-
-- Extend routes (filters, query params)
-- Add persistence beyond the in-memory seed
-- Improve error shapes or add logging
-
-Document non-obvious choices in your repo-root `PRODUCT.md`.
+Choices and assumptions are documented in the repo-root `PRODUCT.md`.
 
 ## Seed data
 
@@ -66,6 +61,7 @@ Document non-obvious choices in your repo-root `PRODUCT.md`.
 
 - **Learner 1** — 3 in-progress, 1 completed, 1 not started (API should return 3)
 - **Learner 2** — 1 in-progress, 1 completed (API should return 1)
+- **Learner 3** — only a completed course (API returns an empty list)
 - **Learner 999** — does not exist (404)
 
 ## CORS
@@ -77,8 +73,7 @@ Enabled for all origins so any local frontend dev server can call the API during
 ```
 your-submission/
 ├── backend/          ← this starter (TypeScript)
-├── frontend-angular/ ← Angular starter (primary)
-├── frontend-react/   ← React starter (primary)
+├── frontend/         ← Angular app
 ├── README.md         ← how to run both
 ├── PRODUCT.md
 └── AI_USAGE.md
