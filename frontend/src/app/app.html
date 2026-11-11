@@ -1,13 +1,48 @@
 <main class="page">
   <p class="eyebrow">Docebo · pilot</p>
   <h1>My progress</h1>
-  <p class="lede">In-progress courses for learner {{ learnerId }}.</p>
-  @if (courses) {
+  <p class="lede">Pick up where you left off.</p>
+
+  <div class="toolbar">
+    <label>
+      Viewing as
+      <select #picker [value]="learnerId()" (change)="selectLearner(+picker.value)">
+        @for (learner of learners; track learner.id) {
+          <option [value]="learner.id" [selected]="learner.id === learnerId()">{{ learner.label }}</option>
+        }
+      </select>
+    </label>
+    <button type="button" (click)="refresh()" [disabled]="status() === 'loading'">Refresh</button>
+  </div>
+
+  @if (status() === 'loading') {
+    <p class="state" role="status">Loading your courses…</p>
+  } @else if (status() === 'error') {
+    <div class="state state-error" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button type="button" (click)="refresh()">Try again</button>
+    </div>
+  } @else if (courses().length === 0) {
+    <p class="state">No courses in progress. Start a course and it will show up here.</p>
+  } @else {
     <ul class="course-list">
-      @for (course of courses; track course.courseId) {
+      @for (course of courses(); track course.courseId) {
         <li class="course">
           <h2>{{ course.title }}</h2>
-          <p class="meta">{{ course.completionPercentage }}% · {{ course.lastActivityAt }}</p>
+          <div
+            class="bar"
+            role="progressbar"
+            aria-label="Completion"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-valuenow]="course.completionPercentage"
+          >
+            <div class="bar-fill" [style.width.%]="course.completionPercentage"></div>
+          </div>
+          <p class="meta">
+            {{ course.completionPercentage }}% complete · ~{{ formatMinutes(course.estimatedMinutesRemaining) }} left ·
+            <span [title]="course.lastActivityAt">last activity {{ formatRelative(course.lastActivityAt) }}</span>
+          </p>
           @if (course.isStale) {
             <span class="badge">Inactive</span>
           }

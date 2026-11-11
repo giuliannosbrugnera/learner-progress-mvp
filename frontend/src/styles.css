@@ -66,3 +66,64 @@ h1 {
   letter-spacing: 0.04em;
   color: #a16207;
 }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: #57534e;
+}
+
+.toolbar select,
+button {
+  font: inherit;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #d6cfc6;
+  border-radius: 6px;
+  background: #fffcf8;
+  color: #1c1917;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.state {
+  background: #fffcf8;
+  border: 1px dashed #d6cfc6;
+  border-radius: 10px;
+  padding: 1.25rem;
+  color: #57534e;
+}
+
+.state-error {
+  border-style: solid;
+  border-color: #fca5a5;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.state-error p {
+  margin: 0 0 0.75rem;
+}
+
+.bar {
+  height: 8px;
+  margin: 0.4rem 0 0.6rem;
+  border-radius: 4px;
+  background: #ece6de;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #c2410c;
+}
