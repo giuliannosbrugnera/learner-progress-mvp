@@ -92,6 +92,20 @@ describe('GET /api/learners/:learnerId/progress', () => {
     expect(timestamps).toEqual(sorted);
   });
 
+  it('includes estimatedMinutesRemaining from incomplete lesson durations', async () => {
+    const res = await request(app).get('/api/learners/1/progress');
+    const minutesById = Object.fromEntries(
+      res.body.courses.map((c: { courseId: string; estimatedMinutesRemaining: number }) => [
+        c.courseId,
+        c.estimatedMinutesRemaining,
+      ]),
+    );
+    // onboarding: 15 (explicit) + 10 (default for the lesson with no duration)
+    expect(minutesById['course-onboarding']).toBe(25);
+    expect(minutesById['course-leadership']).toBe(35);
+    expect(minutesById['course-compliance']).toBe(15);
+  });
+
   it('returns a single in-progress course for learner 2', async () => {
     const res = await request(app).get('/api/learners/2/progress');
     expect(res.status).toBe(200);

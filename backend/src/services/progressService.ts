@@ -5,6 +5,9 @@ import type { CourseEnrollment, CourseProgress } from '../types';
 /** Days without activity before a course is considered stale (business rule hint). */
 export const STALE_DAYS = 30;
 
+/** Assumed length of a lesson that has no `durationMinutes` (used by the time-remaining rule). */
+export const DEFAULT_LESSON_MINUTES = 10;
+
 /**
  * Return in-progress courses for a learner, sorted by last activity (most recent first).
  * Throws NotFoundError when the learner does not exist.
@@ -35,6 +38,17 @@ export function isEnrollmentStale(lastActivityAt: string, now: Date = new Date()
   return diffDays > STALE_DAYS;
 }
 
+/**
+ * Extra business rule: minutes of learning left in a course, i.e. the sum of the durations of
+ * lessons not yet completed. A lesson without a duration counts as DEFAULT_LESSON_MINUTES so the
+ * estimate is never silently understated.
+ */
+export function estimateMinutesRemaining(enrollment: CourseEnrollment): number {
+  return enrollment.lessons
+    .filter((lesson) => !lesson.completed)
+    .reduce((sum, lesson) => sum + (lesson.durationMinutes ?? DEFAULT_LESSON_MINUTES), 0);
+}
+
 function toCourseProgress(enrollment: CourseEnrollment, now: Date): CourseProgress {
   return {
     courseId: enrollment.courseId,
@@ -43,5 +57,6 @@ function toCourseProgress(enrollment: CourseEnrollment, now: Date): CourseProgre
     lastActivityAt: enrollment.lastActivityAt,
     status: 'in_progress',
     isStale: isEnrollmentStale(enrollment.lastActivityAt, now),
+    estimatedMinutesRemaining: estimateMinutesRemaining(enrollment),
   };
 }

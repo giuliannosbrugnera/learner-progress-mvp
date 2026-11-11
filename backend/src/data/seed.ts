@@ -20,7 +20,7 @@ export const enrollments: CourseEnrollment[] = [
     lessons: [
       { id: 'l1', title: 'Welcome', completed: true },
       { id: 'l2', title: 'Tools setup', completed: true },
-      { id: 'l3', title: 'Security basics', completed: false },
+      { id: 'l3', title: 'Security basics', completed: false, durationMinutes: 15 },
       { id: 'l4', title: 'Team intro', completed: false },
     ],
     lastActivityAt: daysAgo(4),
@@ -32,8 +32,8 @@ export const enrollments: CourseEnrollment[] = [
     learnerId: 1,
     lessons: [
       { id: 'l1', title: 'Feedback frameworks', completed: true },
-      { id: 'l2', title: 'Coaching conversations', completed: false },
-      { id: 'l3', title: 'Delegation', completed: false },
+      { id: 'l2', title: 'Coaching conversations', completed: false, durationMinutes: 20 },
+      { id: 'l3', title: 'Delegation', completed: false, durationMinutes: 15 },
     ],
     lastActivityAt: daysAgo(2),
     status: 'in_progress',
@@ -44,7 +44,7 @@ export const enrollments: CourseEnrollment[] = [
     learnerId: 1,
     lessons: [
       { id: 'l1', title: 'Policy overview', completed: true },
-      { id: 'l2', title: 'Quiz', completed: false },
+      { id: 'l2', title: 'Quiz', completed: false, durationMinutes: 15 },
     ],
     lastActivityAt: daysAgo(54), // always > STALE_DAYS (30)
     status: 'in_progress',

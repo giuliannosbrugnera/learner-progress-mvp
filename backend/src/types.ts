@@ -5,6 +5,8 @@ export interface Lesson {
   id: string;
   title: string;
   completed: boolean;
+  /** Estimated minutes to finish this lesson; DEFAULT_LESSON_MINUTES is assumed when absent. */
+  durationMinutes?: number;
 }
 
 /** Raw enrollment record used by the in-memory store. */
@@ -27,6 +29,8 @@ export interface CourseProgress {
   status: 'in_progress';
   /** Set when last activity is older than the stale threshold (see progressService). */
   isStale?: boolean;
+  /** Minutes of learning left: sum of durations of incomplete lessons (see progressService). */
+  estimatedMinutesRemaining: number;
 }
 
 export interface LearnerProgressResponse {
