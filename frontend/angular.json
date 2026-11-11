@@ -30,6 +30,14 @@
             "proxyConfig": "proxy.conf.json",
             "port": 5173
           }
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "karmaConfig": "karma.conf.js"
+          }
         }
       }
     }
