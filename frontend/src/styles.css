@@ -96,6 +96,20 @@ button:disabled {
   cursor: default;
 }
 
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: #57534e;
+  cursor: pointer;
+}
+
+.state p {
+  margin: 0 0 0.75rem;
+}
+
 .state {
   background: #fffcf8;
   border: 1px dashed #d6cfc6;

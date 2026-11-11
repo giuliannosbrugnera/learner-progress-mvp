@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import type { Subscription } from 'rxjs';
 import { AnalyticsService } from './analytics.service';
@@ -13,7 +13,10 @@ const LEARNERS = [
   { id: 999, label: 'Learner 999 (error state demo)' },
 ];
 
-type LoadTrigger = 'initial' | 'learner_changed' | 'refresh';
+/** "Short" filter for the time-remaining rule: courses finishable in one sitting. */
+export const SHORT_COURSE_MINUTES = 30;
+
+type LoadTrigger ='initial' | 'learner_changed' | 'refresh';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +34,14 @@ export class App implements OnInit, OnDestroy {
   readonly courses = signal<CourseProgress[]>([]);
   readonly errorMessage = signal('');
 
+  readonly shortCourseMinutes = SHORT_COURSE_MINUTES;
+  readonly shortOnly = signal(false);
+  readonly visibleCourses = computed(() =>
+    this.shortOnly()
+      ? this.courses().filter((course) => course.estimatedMinutesRemaining < SHORT_COURSE_MINUTES)
+      : this.courses(),
+  );
+
   readonly formatRelative = formatRelative;
   readonly formatMinutes = formatMinutes;
 
@@ -45,6 +56,10 @@ export class App implements OnInit, OnDestroy {
   selectLearner(id: number): void {
     this.learnerId.set(id);
     this.load('learner_changed');
+  }
+
+  setShortOnly(value: boolean): void {
+    this.shortOnly.set(value);
   }
 
   refresh(): void {

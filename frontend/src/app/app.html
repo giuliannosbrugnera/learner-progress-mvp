@@ -15,6 +15,11 @@
     <button type="button" (click)="refresh()" [disabled]="status() === 'loading'">Refresh</button>
   </div>
 
+  <label class="filter">
+    <input type="checkbox" #shortToggle [checked]="shortOnly()" (change)="setShortOnly(shortToggle.checked)" />
+    Under {{ shortCourseMinutes }} min left
+  </label>
+
   @if (status() === 'loading') {
     <p class="state" role="status">Loading your courses…</p>
   } @else if (status() === 'error') {
@@ -24,9 +29,14 @@
     </div>
   } @else if (courses().length === 0) {
     <p class="state">No courses in progress. Start a course and it will show up here.</p>
+  } @else if (visibleCourses().length === 0) {
+    <div class="state">
+      <p>No courses with under {{ shortCourseMinutes }} min left.</p>
+      <button type="button" (click)="setShortOnly(false)">Show all {{ courses().length }} courses</button>
+    </div>
   } @else {
     <ul class="course-list">
-      @for (course of courses(); track course.courseId) {
+      @for (course of visibleCourses(); track course.courseId) {
         <li class="course">
           <h2>{{ course.title }}</h2>
           <div
